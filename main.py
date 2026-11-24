@@ -14,8 +14,12 @@ def main():
     out_dir = "/output"
     os.makedirs(out_dir, exist_ok=True)
     path = os.path.join(out_dir, "entry.txt")
-    with open(path, "w", encoding="utf-8") as handle:
+    if len(LINE) > 140:
+        raise SystemExit(f"entry too long: {len(LINE)} characters (max 140)")
+    tmp_path = path + ".tmp"
+    with open(tmp_path, "w", encoding="utf-8") as handle:
         handle.write(LINE)
+    os.replace(tmp_path, path)
     print(f"wrote {len(LINE)} characters to {path}")
 
 
